@@ -1,7 +1,7 @@
 // https://docs.langchain.com/oss/javascript/langchain/multi-agent/subagents-personal-assistant
 //*---------------Call model/llm----------------
 import  {ChatGroq} from '@langchain/groq'
-import { createAgent } from "langchain";
+import { createAgent, humanInTheLoopMiddleware  } from "langchain";
 import readline from 'node:readline/promises'
 import { MemorySaver } from '@langchain/langgraph';
 
@@ -98,6 +98,13 @@ const emailAgent = createAgent({
   model: model,
   tools: [sendEmail],
   systemPrompt: EMAIL_AGENT_PROMPT,
+  // HUMAN IN TEH LOOP 
+   /*  middleware: [ 
+    humanInTheLoopMiddleware({
+      interruptOn: { send_email: true }, 
+      descriptionPrefix: "Outbound email pending approval",
+    }),
+  ], */
 });
 
 //*---------------Wrap sub-agents as tools-----------------
@@ -165,7 +172,9 @@ const supervisorAgent = createAgent({
 });
 
 
-//*--------------------test
+
+
+//*--------------------test----------------------------------
 async function main() {
   const config = {configurable:{thread_id:"1"}}
   const rl = readline.createInterface({input:stdin,output:stdout})

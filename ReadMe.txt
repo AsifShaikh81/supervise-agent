@@ -14,6 +14,8 @@ supervise agent manage all
 
 note: check diagram to understand better
 
+
+
     
    
 
